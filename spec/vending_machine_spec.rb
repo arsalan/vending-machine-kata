@@ -23,9 +23,15 @@ describe "vending machine can collect money from the customer" do
 			@penny = Coin.new(@penny_weight, @penny_thickness)
 		
 	end
+	it "shows INSERT COIN when no coin is inserted yet" do
+		expect(@vender.to_s).to eq("INSERT COIN")
+	end
 	it "will accept valid coins" do
-			expect(@vender.insert(@nickel)).to eq(5)
-			expect(@vender.insert(@dime)).to eq(15)
-			expect(@vender.insert(@quarter)).to eq(40)
+			@vender.insert(@nickel)
+			expect(@vender.to_s).to eq("0.05")
+			@vender.insert(@dime)
+			expect(@vender.to_s).to eq("0.15")
+			@vender.insert(@quarter)
+			expect(@vender.to_s).to eq("0.40")
 	end
 end
