@@ -3,10 +3,12 @@ require 'coin_evaluator'
 class VendingMachine
 	attr_accessor :current_value
 	attr_accessor :coin_return
+	attr_accessor :products
 
 	def initialize
 		@current_value = 0
 		@coin_return = []
+		@products = {}
 	end
 
 	def insert(coin)
@@ -29,4 +31,7 @@ class VendingMachine
 		return "INSERT COIN" if @current_value <= 0
 		sprintf "%.2f", @current_value
 	end
+
+	
+
 end

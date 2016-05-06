@@ -65,10 +65,21 @@ describe "vending machine allows selection of products" do
 			@dime = Coin.new(@dime_weight, @dime_thickness)
 			@quarter = Coin.new(@quarter_weight, @quarter_thickness)
 			@penny = Coin.new(@penny_weight, @penny_thickness)
-		
+
+			@products = [
+				{ :name => :cola, :price => 1.00, :quantity => 10 },
+				{ :name => :chips, :price => 0.50, :quantity => 20 },
+				{ :name => :candy, :price => 0.65, :quantity => 30 }
+			]
+
 	end
 	before(:each) do
 		@vender = VendingMachine.new
+		@vender.load_products(@products)
+	end
+
+	it "products can be loaded to vending machine" do
+		expect(@vender.products).to eq(3)
 	end
 
 	it "displays INSERT COIN when no coins have been inserted yet" do
