@@ -4,8 +4,6 @@ require 'coin'
 
 describe "vending machine can collect money from the customer" do
 	before(:all) do
-
-			@vender = VendingMachine.new
 			# Note: The weights and thicknesses are based on US Mint specs
 			# Ref: https://www.usmint.gov/about_the_mint/?action=coin_specifications
 			@nickel_weight = 5.0
@@ -23,6 +21,11 @@ describe "vending machine can collect money from the customer" do
 			@penny = Coin.new(@penny_weight, @penny_thickness)
 		
 	end
+
+	before(:each) do
+		@vender = VendingMachine.new
+	end
+
 	it "shows INSERT COIN when no coin is inserted yet" do
 		expect(@vender.to_s).to eq("INSERT COIN")
 	end
@@ -33,5 +36,14 @@ describe "vending machine can collect money from the customer" do
 			expect(@vender.to_s).to eq("0.15")
 			@vender.insert(@quarter)
 			expect(@vender.to_s).to eq("0.40")
+	end
+	it "will reject invalid coins and return coin" do
+			@vender.insert(@penny)
+			expect(@vender.coin_return).to eq([@penny])
+			expect(@vender.to_s).to eq("INSERT COIN")
+			@vender.insert(@dime)
+			@vender.insert(@penny)
+			expect(@vender.coin_return).to eq([@penny, @penny])
+			expect(@vender.to_s).to eq("0.10")
 	end
 end

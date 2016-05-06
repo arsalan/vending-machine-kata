@@ -14,8 +14,11 @@ class VendingMachine
 		if determinedValue.nil? then
 			return_coin(coin)
 			raise "Invalid Coin Inserted"
+		elsif determinedValue == 1
+			return_coin(coin)
+		else
+			@current_value = (@current_value + determinedValue/100.0).round(2)
 		end
-		@current_value = (@current_value + determinedValue/100.0).round(2)
 	end
 
 	def return_coin(coin)
@@ -23,7 +26,7 @@ class VendingMachine
 	end
 
 	def to_s
-		#return "INSERT_COIN" if current_value <= 0
+		return "INSERT COIN" if @current_value <= 0
 		sprintf "%.2f", @current_value
 	end
 end
