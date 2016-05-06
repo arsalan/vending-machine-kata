@@ -33,13 +33,13 @@ class VendingMachine
 	end
 	
 	def load_products(products)
-		products.each do |product|
-			if !@products[product.name].nil? then
-				quantity = @products[name].quantity + product.quantity
+		products.keys.each do |key|
+			if !@products[key].nil? then
+				quantity = @products[key][:quantity] + products[key][:quantity]
 			else
-				quantity = product.quantity
+				quantity = products[key][:quantity]
 			end
-			@products[product.name] = { price: product.price, quantity: quantity }
+			@products[key] = { price: products[key][:product].price, quantity: quantity }
 
 		end
 	end

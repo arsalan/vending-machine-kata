@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 require 'vending_machine'
 require 'coin'
+require 'product'
 
 describe "vending machine can collect money from the customer" do
 	before(:all) do
@@ -48,7 +49,7 @@ describe "vending machine can collect money from the customer" do
 	end
 end
 
-describe "vending machine allows selection of products" do
+describe "vending machine allows selection of products and" do
 	before(:all) do
 			# Note: The weights and thicknesses are based on US Mint specs
 			# Ref: https://www.usmint.gov/about_the_mint/?action=coin_specifications
@@ -66,11 +67,11 @@ describe "vending machine allows selection of products" do
 			@quarter = Coin.new(@quarter_weight, @quarter_thickness)
 			@penny = Coin.new(@penny_weight, @penny_thickness)
 
-			@products = [
-				{ :name => :cola, :price => 1.00, :quantity => 10 },
-				{ :name => :chips, :price => 0.50, :quantity => 20 },
-				{ :name => :candy, :price => 0.65, :quantity => 30 }
-			]
+			@products = {
+				:cola => { :product => Product.new("Cola", 1.00), :quantity => 10 },
+				:chips => { :product => Product.new("Chips", 0.50), :quantity => 20 },
+				:candy => { :product => Product.new("Candy", 0.65), :quantity => 30 }
+			}
 
 	end
 	before(:each) do
@@ -79,7 +80,7 @@ describe "vending machine allows selection of products" do
 	end
 
 	it "products can be loaded to vending machine" do
-		expect(@vender.products).to eq(3)
+		expect(@vender.products.keys.length).to eq(3)
 	end
 
 	it "displays INSERT COIN when no coins have been inserted yet" do
