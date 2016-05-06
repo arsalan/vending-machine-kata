@@ -24,9 +24,8 @@ describe "vending machine can collect money from the customer" do
 		
 	end
 	it "will accept valid coins" do
-			@vender.insert(@nickel).eql?(5)
-			@vender.insert(@dime).eql?(15)
-			@vender.insert(@quarter).eql?(40)
-
+			expect(@vender.insert(@nickel)).to eq(5)
+			expect(@vender.insert(@dime)).to eq(15)
+			expect(@vender.insert(@quarter)).to eq(40)
 	end
 end
