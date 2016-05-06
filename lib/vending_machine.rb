@@ -31,7 +31,16 @@ class VendingMachine
 		return "INSERT COIN" if @current_value <= 0
 		sprintf "%.2f", @current_value
 	end
-
 	
+	def load_products(products)
+		products.each do |product|
+			if !@products[product.name].nil? then
+				quantity = @products[name].quantity + product.quantity
+			else
+				quantity = product.quantity
+			end
+			@products[product.name] = { price: product.price, quantity: quantity }
 
+		end
+	end
 end
