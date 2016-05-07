@@ -90,60 +90,60 @@ describe "vending machine can collect money from the customer" do
 				expect(@vendor.current_value).to eq(0.00)
 			end
 
-			it "displays PRICE: 1.00 when Cola button pressed when no coins have been inserted yet" do
+			it "displays PRICE: 1.00 and then displays INSERT COIN when Cola button pressed when no coins have been inserted yet" do
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("PRICE: 1.00")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.50 when Chips button pressed when no coins have been inserted yet" do
+			it "displays PRICE: 0.50 and then displays INSERT COIN when Chips button pressed when no coins have been inserted yet" do
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("PRICE: 1.00")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.65 when Candy button pressed when no coins have been inserted yet" do
+			it "displays PRICE: 0.65 and then displays INSERT COIN when Candy button pressed when no coins have been inserted yet" do
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("PRICE: 1.00")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 1.00 when Cola button pressed with invalid coins inserted" do
+			it "displays PRICE: 1.00 and then displays INSERT COIN when Cola button pressed with invalid coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("PRICE: 1.00")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.50 when Chips button pressed with invalid coins inserted" do
+			it "displays PRICE: 0.50 and then displays INSERT COIN when Chips button pressed with invalid coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:chips)
 				expect(displayed).to eq("PRICE: 0.50")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.65 when Candy button pressed with invalid coins inserted" do
+			it "displays PRICE: 0.65 and then displays INSERT COIN when Candy button pressed with invalid coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:candy)
 				expect(displayed).to eq("PRICE: 0.65")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 1.00 when Cola button pressed with insufficient coins inserted" do
+			it "displays PRICE: 1.00 and then displays INSERT COIN when Cola button pressed with insufficient coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("PRICE: 1.00")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.50 when Chips button pressed with insufficient coins inserted" do
+			it "displays PRICE: 0.50 and then displays INSERT COIN when Chips button pressed with insufficient coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:chips)
 				expect(displayed).to eq("PRICE: 0.50")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays PRICE: 0.65 when Candy button pressed with insufficient coins inserted" do
+			it "displays PRICE: 0.65 and then displays INSERT COIN when Candy button pressed with insufficient coins inserted" do
 				@vendor.insert(@penny)
 				displayed = @vendor.press_button(:candy)
 				expect(displayed).to eq("PRICE: 0.65")
@@ -153,21 +153,21 @@ describe "vending machine can collect money from the customer" do
 		end
 
 		describe "when product should dispense," do
-			it "displays THANK YOU when Cola button pressed with exact amount in coins inserted" do
+			it "displays THANK YOU and then displays INSERT COIN when Cola button pressed with exact amount in coins inserted" do
 				4.times { @vendor.insert(@quarter) }
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("THANK YOU")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays THANK YOU when Chips button pressed with exact amount in coins inserted" do
+			it "displays THANK YOU and then displays INSERT COIN when Chips button pressed with exact amount in coins inserted" do
 				2.times { @vendor.insert(@quarter) }
 				displayed = @vendor.press_button(:chips)
 				expect(displayed).to eq("THANK YOU")
 				expect(@vendor.display).to eq("INSERT COIN")
 			end
 
-			it "displays THANK YOU when Candy button pressed with exact amount in coins inserted" do
+			it "displays THANK YOU and then displays INSERT COIN when Candy button pressed with exact amount in coins inserted" do
 				2.times { @vendor.insert(@quarter) }
 				1.times { @vendor.insert(@dime) }
 				1.times { @vendor.insert(@nickel) }
@@ -179,7 +179,7 @@ describe "vending machine can collect money from the customer" do
 		end
 
 		describe "when extra coins should be returned to customer," do
-			it "displays THANK YOU and then returns extra coins when Cola button pressed with extra amount in coins inserted" do
+			it "displays THANK YOU and then returns extra coins and then displays INSERT COIN when Cola button pressed with extra amount in coins inserted" do
 				5.times { @vendor.insert(@quarter) }
 				displayed = @vendor.press_button(:cola)
 				expect(displayed).to eq("THANK YOU")
@@ -187,7 +187,7 @@ describe "vending machine can collect money from the customer" do
 				expect(@vendor.coin_return).to eq([@quarter])
 			end
 
-			it "displays THANK YOU and then returns extra coins when Chips button pressed with extra amount in coins inserted" do
+			it "displays THANK YOU and then returns extra coins and then displays INSERT COIN when Chips button pressed with extra amount in coins inserted" do
 				4.times { @vendor.insert(@quarter) }
 				displayed = @vendor.press_button(:chips)
 				expect(displayed).to eq("THANK YOU")
@@ -195,7 +195,7 @@ describe "vending machine can collect money from the customer" do
 				expect(@vendor.coin_return).to eq([@quarter, @quarter])
 			end
 
-			it "displays THANK YOU and then returns extra coins when Candy button pressed with extra amount in coins inserted" do
+			it "displays THANK YOU and then returns extra coins and then displays INSERT COIN when Candy button pressed with extra amount in coins inserted" do
 				2.times { @vendor.insert(@quarter) }
 				2.times { @vendor.insert(@dime) }
 				2.times { @vendor.insert(@nickel) }
