@@ -27,9 +27,55 @@ class VendingMachine
 		@coin_return << coin
 	end
 
+	def press_button(item)
+		shouldVend = false
+		price = @products[item][:price]
+		if price <= @current_value then
+			if vend(item) then
+				@current_value = @current_value - price
+			end
+		end
+		display(item, shouldVend)
+	end
+
+	def in_stock(item)
+		@products[item][:quantity] > 0
+	end
+
+	def vend(item)
+		didVend = false
+		if in_stock(item) then
+			dispense(item)
+			didVend = true
+		end
+		didVend
+	end
+
+	def dispense(item)
+		@products[item][:quantity] = @products[item][:quantity] - 1
+	end
+
+	def display(item = nil, shouldVend = nil)
+		return to_s if shouldVend.nil?
+
+		if !shouldVend then
+			show_price(item)
+		else
+			"THANK YOU"
+		end
+	end
+
+	def show_price(item)
+		"PRICE: #{format_as_currency(@products[item][:price])}"
+	end
+
+	def format_as_currency(price)
+		sprintf "%.2f", price
+	end
+
 	def to_s
 		return "INSERT COIN" if @current_value <= 0
-		sprintf "%.2f", @current_value
+		format_as_currency(@current_value)
 	end
 	
 	def load_products(products)
