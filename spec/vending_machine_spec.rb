@@ -88,57 +88,63 @@ describe "vending machine allows selection of products and" do
 		expect(@vendor.current_value).to eq(0.00)
 	end
 
-	it "displays PRICE:1.00 when Cola button pressed when no coins have been inserted yet" do
+	it "displays PRICE: 1.00 when Cola button pressed when no coins have been inserted yet" do
 		displayed = @vendor.press_button(:cola)
 		expect(displayed).to eq("PRICE: 1.00")
 		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.50 when Chips button pressed when no coins have been inserted yet" do
-		@vendor.press_button(:chips)
-		expect(@vendor.display).to eq("PRICE: 0.50")
+	it "displays PRICE: 0.50 when Chips button pressed when no coins have been inserted yet" do
+		displayed = @vendor.press_button(:cola)
+		expect(displayed).to eq("PRICE: 1.00")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.65 when Candy button pressed when no coins have been inserted yet" do
-		@vendor.press_button(:candy)
-		expect(@vendor.display).to eq("PRICE: 0.65")
+	it "displays PRICE: 0.65 when Candy button pressed when no coins have been inserted yet" do
+		displayed = @vendor.press_button(:cola)
+		expect(displayed).to eq("PRICE: 1.00")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:1.00 when Cola button pressed with invalid coins inserted" do
+	it "displays PRICE: 1.00 when Cola button pressed with invalid coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:cola)
-		expect(@vendor.display).to eq("PRICE: 1.00")
-
+		displayed = @vendor.press_button(:cola)
+		expect(displayed).to eq("PRICE: 1.00")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.50 when Chips button pressed with invalid coins inserted" do
+	it "displays PRICE: 0.50 when Chips button pressed with invalid coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:chips)
-		expect(@vendor.display).to eq("PRICE: 0.50")
+		displayed = @vendor.press_button(:chips)
+		expect(displayed).to eq("PRICE: 0.50")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.65 when Candy button pressed with invalid coins inserted" do
+	it "displays PRICE: 0.65 when Candy button pressed with invalid coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:candy)
-		expect(@vendor.display).to eq("PRICE: 0.65")
+		displayed = @vendor.press_button(:candy)
+		expect(displayed).to eq("PRICE: 0.65")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:1.00 when Cola button pressed with insufficient coins inserted" do
+	it "displays PRICE: 1.00 when Cola button pressed with insufficient coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:cola)
-		expect(@vendor.display).to eq("PRICE: 1.00")
-
+		displayed = @vendor.press_button(:cola)
+		expect(displayed).to eq("PRICE: 1.00")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.50 when Chips button pressed with insufficient coins inserted" do
+	it "displays PRICE: 0.50 when Chips button pressed with insufficient coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:chips)
-		expect(@vendor.display).to eq("PRICE: 0.50")
+		displayed = @vendor.press_button(:chips)
+		expect(displayed).to eq("PRICE: 0.50")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 
-	it "displays PRICE:0.65 when Candy button pressed with insufficient coins inserted" do
+	it "displays PRICE: 0.65 when Candy button pressed with insufficient coins inserted" do
 		@vendor.insert(@penny)
-		@vendor.press_button(:candy)
-		expect(@vendor.display).to eq("PRICE: 0.65")
+		displayed = @vendor.press_button(:candy)
+		expect(displayed).to eq("PRICE: 0.65")
+		expect(@vendor.display).to eq("INSERT COIN")
 	end
 end
