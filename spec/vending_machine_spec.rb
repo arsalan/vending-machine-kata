@@ -335,8 +335,8 @@ describe "vending machine can collect money from the customer" do
 				@vendor.add_coin(:nickel, @nickel)
 				@vendor.load_products(@products)
 			end
-			
-			it "displays EXACT CHANGE ONLY instead of INSERT COIN when less than 1 dime or 2 nickels are available to make change" do
+
+			it "displays EXACT CHANGE ONLY instead of INSERT COIN when less than 1 dime and 2 nickels are available to make change" do
 				expect(@vendor.display).to eq("EXACT CHANGE ONLY")
 			end
 

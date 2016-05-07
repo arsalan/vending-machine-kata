@@ -78,6 +78,10 @@ class VendingMachine
 		@products[item][:quantity] > 0
 	end
 
+	def exact_change_needed
+		@available_dimes.length < 1 && @available_nickels.length < 2
+	end
+
 	def vend(item)
 		didVend = false
 		if in_stock(item) then
@@ -114,6 +118,7 @@ class VendingMachine
 	end
 
 	def to_s
+		return "EXACT CHANGE ONLY" if exact_change_needed
 		return "INSERT COIN" if @current_value <= 0
 		format_as_currency(@current_value)
 	end
