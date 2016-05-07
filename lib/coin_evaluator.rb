@@ -9,9 +9,35 @@ class CoinEvaluator
 	@penny_thickness = 1.52
 
 	def self.coin_value(weight, thickness)
-		return 1 if weight == @penny_weight && thickness == @penny_thickness
-		return 5 if weight == @nickel_weight && thickness == @nickel_thickness
-		return 10 if weight == @dime_weight && thickness == @dime_thickness
-		return 25 if weight == @quarter_weight && thickness == @quarter_thickness
+		return 1, :penny if weight == @penny_weight && thickness == @penny_thickness
+		return 5, :nickel if weight == @nickel_weight && thickness == @nickel_thickness
+		return 10, :dime if weight == @dime_weight && thickness == @dime_thickness
+		return 25, :quarter if weight == @quarter_weight && thickness == @quarter_thickness
+	end
+
+	def self.determine_coins_for_making_change(cents)
+		centsAsInteger = cents.to_i
+		numberOfQuarters = 0
+		numberOfDimes = 0
+		numberOfNickels = 0
+
+		if centsAsInteger > 0 then
+			numberOfQuarters = centsAsInteger / 25
+			remainingCents = centsAsInteger % 25
+			if remainingCents > 0 then
+				numberOfDimes = remainingCents / 10
+				remainingCents = remainingCents % 10
+			end
+
+			if remainingCents > 0 then
+				numberOfNickels = (remainingCents / 5).to_i
+				remainingCents = remainingCents % 5
+				if remainingCents > 0 then
+					raise "An invalid amount has somehow found it's way into the vending machine. Investigate."
+				end
+			end
+		end
+
+		{ :numberOfQuarters => numberOfQuarters, :numberOfDimes => numberOfDimes, :numberOfNickels => numberOfNickels }
 	end
 end
