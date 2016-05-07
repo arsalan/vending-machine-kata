@@ -207,4 +207,108 @@ describe "vending machine can collect money from the customer" do
 			end
 
 		end
+
+	end
+
+	describe "vending machine allows selection of products and" do
+		before(:all) do
+			# Note: The weights and thicknesses are based on US Mint specs
+			# Ref: https://www.usmint.gov/about_the_mint/?action=coin_specifications
+			@nickel_weight = 5.0
+			@nickel_thickness = 1.95
+			@dime_weight = 2.268
+			@dime_thickness = 1.35
+			@quarter_weight = 5.67
+			@quarter_thickness = 1.75
+			@penny_weight = 2.5
+			@penny_thickness = 1.52
+			
+			@nickel = Coin.new(@nickel_weight, @nickel_thickness)
+			@dime = Coin.new(@dime_weight, @dime_thickness)
+			@quarter = Coin.new(@quarter_weight, @quarter_thickness)
+			@penny = Coin.new(@penny_weight, @penny_thickness)
+
+			@products = {
+				:cola => { :product => Product.new("Cola", 1.00), :quantity => 0 },
+				:chips => { :product => Product.new("Chips", 0.50), :quantity => 0 },
+				:candy => { :product => Product.new("Candy", 0.65), :quantity => 0 }
+			}
+
+		end
+		before(:each) do
+			@vendor = VendingMachine.new
+			@vendor.load_products(@products)
+		end
+
+		describe "when no coins inserted," do
+
+			it "displays SOLD OUT and then INSERT COINS when Cola button pressed and product is out of stock" do
+				displayed = @vendor.press_button(:cola)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("INSERT COIN")
+			end
+
+			it "displays SOLD OUT and then INSERT COINS when Chips button pressed and product is out of stock" do
+				displayed = @vendor.press_button(:chips)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("INSERT COIN")
+			end
+
+			it "displays SOLD OUT and then INSERT COINS when Candy button pressed and product is out of stock" do
+				displayed = @vendor.press_button(:candy)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("INSERT COIN")
+			end
+
+		end
+
+		describe "when coins inserted," do
+
+			it "displays SOLD OUT and then amount inserted when correct and exact coins inserted and Cola button pressed and product is out of stock" do
+				4.times { @vendor.insert(@quarter) }
+				displayed = @vendor.press_button(:cola)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("1.00")
+			end
+
+			it "displays SOLD OUT and then amount inserted when correct and exact coins inserted and Chips button pressed and product is out of stock" do
+				2.times { @vendor.insert(@quarter) }
+				displayed = @vendor.press_button(:chips)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("0.50")
+			end
+
+			it "displays SOLD OUT and then amount inserted when correct and exact coins inserted and Candy button pressed and product is out of stock" do
+				2.times { @vendor.insert(@quarter) }
+				1.times { @vendor.insert(@dime) }
+				1.times { @vendor.insert(@nickel) }
+				displayed = @vendor.press_button(:candy)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("0.65")
+			end
+
+			it "displays SOLD OUT and then amount inserted when insufficient amount in coins inserted and Cola button pressed and product is out of stock" do
+				3.times { @vendor.insert(@quarter) }
+				displayed = @vendor.press_button(:cola)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("0.75")
+			end
+
+			it "displays SOLD OUT and then amount inserted when insufficient amount in coins inserted and Chips button pressed and product is out of stock" do
+				1.times { @vendor.insert(@quarter) }
+				displayed = @vendor.press_button(:chips)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("0.25")
+			end
+
+			it "displays SOLD OUT and then amount inserted when insufficient amount in coins inserted and Candy button pressed and product is out of stock" do
+				1.times { @vendor.insert(@quarter) }
+				1.times { @vendor.insert(@dime) }
+				1.times { @vendor.insert(@nickel) }
+				displayed = @vendor.press_button(:candy)
+				expect(displayed).to eq("SOLD OUT")
+				expect(@vendor.display).to eq("0.40")
+			end
+
+		end
 	end
