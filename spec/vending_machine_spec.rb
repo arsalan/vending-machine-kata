@@ -155,6 +155,7 @@ end
 describe "when product should dispense," do
 	it "displays THANK YOU when Cola button pressed with exact amount in coins inserted" do
 		4.times { @vendor.insert(@quarter) }
+		p @vendor.current_value
 		displayed = @vendor.press_button(:cola)
 		expect(displayed).to eq("THANK YOU")
 		expect(@vendor.display).to eq("INSERT COIN")
