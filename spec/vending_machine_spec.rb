@@ -25,6 +25,9 @@ describe "vending machine can collect money from the customer" do
 
 		before(:each) do
 			@vendor = VendingMachine.new
+			100.times { @vendor.add_coin(:quarter, @quarter) }
+			100.times { @vendor.add_coin(:dime, @dime) }
+			100.times { @vendor.add_coin(:nickel, @nickel) }
 		end
 
 		it "shows INSERT COIN when no coin is inserted yet" do
@@ -77,6 +80,9 @@ describe "vending machine can collect money from the customer" do
 				:candy => { :product => Product.new("Candy", 0.65), :quantity => 30 }
 			}
 			@vendor = VendingMachine.new
+			100.times { @vendor.add_coin(:quarter, @quarter) }
+			100.times { @vendor.add_coin(:dime, @dime) }
+			100.times { @vendor.add_coin(:nickel, @nickel) }
 			@vendor.load_products(@products)
 		end
 
@@ -239,6 +245,9 @@ describe "vending machine can collect money from the customer" do
 				:candy => { :product => Product.new("Candy", 0.65), :quantity => 0 }
 			}
 			@vendor = VendingMachine.new
+			100.times { @vendor.add_coin(:quarter, @quarter) }
+			100.times { @vendor.add_coin(:dime, @dime) }
+			100.times { @vendor.add_coin(:nickel, @nickel) }
 			@vendor.load_products(@products)
 		end
 
@@ -310,6 +319,25 @@ describe "vending machine can collect money from the customer" do
 				displayed = @vendor.press_button(:candy)
 				expect(displayed).to eq("SOLD OUT")
 				expect(@vendor.display).to eq("0.40")
+			end
+
+		end
+
+		describe "before coins inserted," do
+			before(:each) do
+				@products = {
+					:cola => { :product => Product.new("Cola", 1.00), :quantity => 10 },
+					:chips => { :product => Product.new("Chips", 0.50), :quantity => 20 },
+					:candy => { :product => Product.new("Candy", 0.65), :quantity => 30 }
+				}
+				@vendor = VendingMachine.new
+				100.times { @vendor.add_coin(:quarter, @quarter) }
+				@vendor.add_coin(:nickel, @nickel)
+				@vendor.load_products(@products)
+			end
+			
+			it "displays EXACT CHANGE ONLY instead of INSERT COIN when less than 1 dime or 2 nickels are available to make change" do
+				expect(@vendor.display).to eq("EXACT CHANGE ONLY")
 			end
 
 		end
