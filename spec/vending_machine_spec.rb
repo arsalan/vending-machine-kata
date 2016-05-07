@@ -155,7 +155,6 @@ end
 describe "when product should dispense," do
 	it "displays THANK YOU when Cola button pressed with exact amount in coins inserted" do
 		4.times { @vendor.insert(@quarter) }
-		p @vendor.current_value
 		displayed = @vendor.press_button(:cola)
 		expect(displayed).to eq("THANK YOU")
 		expect(@vendor.display).to eq("INSERT COIN")
@@ -170,7 +169,7 @@ describe "when product should dispense," do
 
 	it "displays THANK YOU when Candy button pressed with exact amount in coins inserted" do
 		2.times { @vendor.insert(@quarter) }
-		2.times { @vendor.insert(@dime) }
+		1.times { @vendor.insert(@dime) }
 		1.times { @vendor.insert(@nickel) }
 
 		displayed = @vendor.press_button(:candy)

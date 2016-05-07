@@ -28,14 +28,15 @@ class VendingMachine
 	end
 
 	def press_button(item)
-		shouldVend = false
+		didVend = false
 		price = @products[item][:price]
 		if price <= @current_value then
 			if vend(item) then
 				@current_value = @current_value - price
+				didVend = true
 			end
 		end
-		display(item, shouldVend)
+		display(item, didVend)
 	end
 
 	def in_stock(item)
