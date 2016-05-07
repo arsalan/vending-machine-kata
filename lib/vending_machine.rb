@@ -28,6 +28,18 @@ class VendingMachine
 		end
 	end
 
+	def make_change(coinsToReturn)
+		if coinsToReturn[:numberOfQuarters] > 0 then
+					return_coin(:quarter, nil, coinsToReturn[:numberOfQuarters])
+				end
+				if coinsToReturn[:numberOfDimes] > 0 then
+					return_coin(:dime, nil, coinsToReturn[:numberOfDimes])
+				end
+				if coinsToReturn[:numberOfNickels] > 0 then
+					return_coin(:nickel, nil, coinsToReturn[:numberOfNickels])
+				end
+	end
+
 	def return_coin(coinType, coin = nil, count = 1)
 		coinToReturn = coin_to_return!(coinType, coin)
 		count.times { @coin_return << coinToReturn }
@@ -45,21 +57,16 @@ class VendingMachine
 	end
 
 	def press_button(item)
+		soldOut = !in_stock(item)
+		return display_sold_out_message if soldOut
+
 		didVend = false
 		price = @products[item][:price]
 		if price <= @current_value then
 			if vend(item) then
 				amountOfChangeInCents = (@current_value - price) * 100
 				coinsToReturn = CoinEvaluator.determine_coins_for_making_change(amountOfChangeInCents)
-				if coinsToReturn[:numberOfQuarters] > 0 then
-					return_coin(:quarter, nil, coinsToReturn[:numberOfQuarters])
-				end
-				if coinsToReturn[:numberOfDimes] > 0 then
-					return_coin(:dime, nil, coinsToReturn[:numberOfDimes])
-				end
-				if coinsToReturn[:numberOfNickels] > 0 then
-					return_coin(:nickel, nil, coinsToReturn[:numberOfNickels])
-				end
+				make_change(coinsToReturn)
 				didVend = true
 				@current_value = 0.00
 			end
@@ -92,6 +99,10 @@ class VendingMachine
 		else
 			"THANK YOU"
 		end
+	end
+
+	def display_sold_out_message
+		"SOLD OUT"
 	end
 
 	def show_price(item)

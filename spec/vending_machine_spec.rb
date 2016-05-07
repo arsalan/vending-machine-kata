@@ -67,14 +67,15 @@ describe "vending machine can collect money from the customer" do
 			@quarter = Coin.new(@quarter_weight, @quarter_thickness)
 			@penny = Coin.new(@penny_weight, @penny_thickness)
 
+			
+
+		end
+		before(:each) do
 			@products = {
 				:cola => { :product => Product.new("Cola", 1.00), :quantity => 10 },
 				:chips => { :product => Product.new("Chips", 0.50), :quantity => 20 },
 				:candy => { :product => Product.new("Candy", 0.65), :quantity => 30 }
 			}
-
-		end
-		before(:each) do
 			@vendor = VendingMachine.new
 			@vendor.load_products(@products)
 		end
@@ -228,14 +229,15 @@ describe "vending machine can collect money from the customer" do
 			@quarter = Coin.new(@quarter_weight, @quarter_thickness)
 			@penny = Coin.new(@penny_weight, @penny_thickness)
 
+			
+
+		end
+		before(:each) do
 			@products = {
 				:cola => { :product => Product.new("Cola", 1.00), :quantity => 0 },
 				:chips => { :product => Product.new("Chips", 0.50), :quantity => 0 },
 				:candy => { :product => Product.new("Candy", 0.65), :quantity => 0 }
 			}
-
-		end
-		before(:each) do
 			@vendor = VendingMachine.new
 			@vendor.load_products(@products)
 		end
