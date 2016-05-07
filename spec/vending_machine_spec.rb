@@ -83,6 +83,8 @@ describe "vending machine allows selection of products and" do
 		expect(@vendor.products.keys.length).to eq(3)
 	end
 
+	describe "when product should not dispense," do
+
 	it "displays INSERT COIN when no coins have been inserted yet" do
 		expect(@vendor.display).to eq("INSERT COIN")
 		expect(@vendor.current_value).to eq(0.00)
@@ -147,4 +149,32 @@ describe "vending machine allows selection of products and" do
 		expect(displayed).to eq("PRICE: 0.65")
 		expect(@vendor.display).to eq("INSERT COIN")
 	end
+
+end
+
+describe "when product should dispense," do
+	it "displays THANK YOU when Cola button pressed with exact amount in coins inserted" do
+		4.times { @vendor.insert(@quarter) }
+		displayed = @vendor.press_button(:cola)
+		expect(displayed).to eq("THANK YOU")
+		expect(@vendor.display).to eq("INSERT COIN")
+	end
+
+	it "displays THANK YOU when Chips button pressed with exact amount in coins inserted" do
+		2.times { @vendor.insert(@quarter) }
+		displayed = @vendor.press_button(:chips)
+		expect(displayed).to eq("THANK YOU")
+		expect(@vendor.display).to eq("INSERT COIN")
+	end
+
+	it "displays THANK YOU when Candy button pressed with exact amount in coins inserted" do
+		2.times { @vendor.insert(@quarter) }
+		2.times { @vendor.insert(@dime) }
+		1.times { @vendor.insert(@nickel) }
+
+		displayed = @vendor.press_button(:candy)
+		expect(displayed).to eq("THANK YOU")
+		expect(@vendor.display).to eq("INSERT COIN")
+	end
+end
 end
